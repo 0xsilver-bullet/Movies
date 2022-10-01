@@ -20,6 +20,11 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "TMDB_API_KEY", "${properties.getProperty("TMDB_API_KEY")}"
     }
 
     buildTypes {
@@ -57,6 +62,7 @@ android {
 dependencies {
     def nav_version = "2.5.2"
     def lifecycle_version = "2.5.1"
+    def room_version = "2.4.3"
 
     implementation 'androidx.core:core-ktx:1.9.0'
 
@@ -84,6 +90,16 @@ dependencies {
 
     // Navigation
     implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.9"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Timber Logger
     implementation 'com.jakewharton.timber:timber:5.0.1'
