@@ -2,6 +2,6 @@ package com.silverbullet.moviesapp.data.remote.dto
 
 import com.silverbullet.moviesapp.data.remote.dto.sub.Genre
 
-data class GenresDto(
+data class GenresResponse(
     val genres: List<Genre>
 )

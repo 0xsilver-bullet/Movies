@@ -3,7 +3,7 @@ package com.silverbullet.moviesapp.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class PopularMoviesDto(
+data class PopularMoviesResponse(
     val page: Int,
     val results: List<MovieInfoDto>,
     @SerializedName("total_pages")
