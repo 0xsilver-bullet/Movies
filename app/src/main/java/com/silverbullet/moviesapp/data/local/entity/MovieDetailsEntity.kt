@@ -2,7 +2,7 @@ package com.silverbullet.moviesapp.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.silverbullet.moviesapp.data.remote.dto.sub.Genre
+import com.silverbullet.moviesapp.domain.model.Genre
 
 @Entity(tableName = "movies_details_table")
 data class MovieDetailsEntity(

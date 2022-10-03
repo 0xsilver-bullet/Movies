@@ -1,17 +1,18 @@
 package com.silverbullet.moviesapp.domain.repository
 
-import com.silverbullet.moviesapp.data.local.entity.MovieDetailsEntity
-import com.silverbullet.moviesapp.data.local.entity.MovieInfoEntity
-import com.silverbullet.moviesapp.data.remote.dto.sub.Genre
+import com.silverbullet.moviesapp.domain.model.Genre
+import com.silverbullet.moviesapp.domain.model.MovieDetails
+import com.silverbullet.moviesapp.domain.model.MovieInfo
 import com.silverbullet.moviesapp.utils.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
 
-    suspend fun getTrendingMovies(): Resource<List<MovieInfoEntity>>
+    suspend fun getTrendingMovies(): Flow<Resource<List<MovieInfo>>>
 
-    suspend fun getPopularMoves(page: Int): Resource<List<MovieInfoEntity>>
+    suspend fun getPopularMoves(page: Int): Flow<Resource<List<MovieInfo>>>
 
-    suspend fun getMovieDetails(movieId: Int): Resource<MovieDetailsEntity>
+    suspend fun getMovieDetails(movieId: Int): Flow<Resource<MovieDetails>>
 
-    suspend fun getMoviesGenres(): Resource<List<Genre>>
+    suspend fun getMoviesGenres(): Flow<Resource<List<Genre>>>
 }

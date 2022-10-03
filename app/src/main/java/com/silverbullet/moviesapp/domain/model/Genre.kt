@@ -1,4 +1,4 @@
-package com.silverbullet.moviesapp.data.remote.dto.sub
+package com.silverbullet.moviesapp.domain.model
 
 data class Genre(
     val id: Int,

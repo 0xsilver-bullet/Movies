@@ -3,7 +3,7 @@ package com.silverbullet.moviesapp.data.local
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.silverbullet.moviesapp.data.remote.dto.sub.Genre
+import com.silverbullet.moviesapp.domain.model.Genre
 
 class Converters {
 

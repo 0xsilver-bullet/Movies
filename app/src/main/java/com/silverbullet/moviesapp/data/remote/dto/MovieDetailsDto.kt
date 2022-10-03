@@ -3,6 +3,7 @@ package com.silverbullet.moviesapp.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import com.silverbullet.moviesapp.data.remote.dto.sub.*
+import com.silverbullet.moviesapp.domain.model.Genre
 
 data class MovieDetailsDto(
     val adult: Boolean,

@@ -1,7 +1,5 @@
 package com.silverbullet.moviesapp.domain.model
 
-import com.silverbullet.moviesapp.data.remote.dto.sub.Genre
-
 data class MovieDetails(
     val id: Int,
     val title: String,

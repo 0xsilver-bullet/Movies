@@ -4,10 +4,11 @@ import com.silverbullet.moviesapp.BuildConfig
 import com.silverbullet.moviesapp.data.remote.dto.MovieDetailsDto
 import com.silverbullet.moviesapp.data.remote.dto.MovieInfoDto
 import com.silverbullet.moviesapp.data.remote.dto.PopularMoviesResponse
-import com.silverbullet.moviesapp.data.remote.dto.sub.Genre
+import com.silverbullet.moviesapp.domain.model.Genre
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.io.IOException
 
 interface TMDBApi {
 
@@ -40,6 +41,14 @@ interface TMDBApi {
 
         fun buildImageUrl(path: String, size: Int): String {
             return IMAGE_URL + "w${size}/" + path
+        }
+
+        fun exceptionToErrorString(exception: Exception): String {
+            return if (exception is IOException) {
+                "No Internet connection"
+            } else {
+                exception.message ?: "Unexpected error occurred"
+            }
         }
     }
 }
