@@ -114,7 +114,7 @@ class MoviesRepositoryImpl @Inject constructor(
                 )
                 return@flow
             }
-            val entitiesResponse = api.fetchMovieGenres()
+            val entitiesResponse = api.fetchMovieGenres().genres
             genreDao.insertAll(entitiesResponse.map { it.toGenreEntity() })
             emit(
                 Resource.Success(

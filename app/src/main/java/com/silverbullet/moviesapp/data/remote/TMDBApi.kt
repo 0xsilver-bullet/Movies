@@ -1,10 +1,10 @@
 package com.silverbullet.moviesapp.data.remote
 
 import com.silverbullet.moviesapp.BuildConfig
+import com.silverbullet.moviesapp.data.remote.dto.GenresResponse
 import com.silverbullet.moviesapp.data.remote.dto.MovieDetailsDto
 import com.silverbullet.moviesapp.data.remote.dto.MovieInfoDto
 import com.silverbullet.moviesapp.data.remote.dto.PopularMoviesResponse
-import com.silverbullet.moviesapp.domain.model.Genre
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -12,24 +12,24 @@ import java.io.IOException
 
 interface TMDBApi {
 
-    @GET("/movie/popular")
+    @GET("movie/popular")
     suspend fun fetchPopularMovies(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("page") page: Int
     ): PopularMoviesResponse
 
-    @GET("/movie/{movie_id}")
+    @GET("movie/{movie_id}")
     suspend fun fetchMovieDetails(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY
     ): MovieDetailsDto
 
-    @GET("/genre/movie/list")
+    @GET("genre/movie/list")
     suspend fun fetchMovieGenres(
         @Query("api_key") apiKey: String = API_KEY
-    ): List<Genre>
+    ): GenresResponse
 
-    @GET("/trending/movie/day")
+    @GET("trending/movie/day")
     suspend fun fetchTrendingMovies(
         @Query("api_key") apiKey: String = API_KEY
     ): List<MovieInfoDto>
