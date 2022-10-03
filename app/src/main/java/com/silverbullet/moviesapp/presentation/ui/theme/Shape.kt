@@ -1,4 +1,4 @@
-package com.silverbullet.moviesapp.ui.theme
+package com.silverbullet.moviesapp.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
