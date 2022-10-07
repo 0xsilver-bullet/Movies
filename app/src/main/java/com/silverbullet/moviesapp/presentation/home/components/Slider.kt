@@ -1,6 +1,7 @@
 package com.silverbullet.moviesapp.presentation.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -36,7 +37,8 @@ fun Slider(
     items: List<MovieInfo>,
     sliderHeight: Dp = 200.dp,
     itemWidth: Dp = 300.dp,
-    itemHeight: Dp = 150.dp
+    itemHeight: Dp = 150.dp,
+    onItemClick: (Int,String) -> Unit = {_,_ ->}
 ) {
     Column(
         modifier = Modifier
@@ -67,7 +69,8 @@ fun Slider(
                             ).scaleX
                         }
                         .width(itemWidth)
-                        .height(itemHeight),
+                        .height(itemHeight)
+                        .clickable { onItemClick(items[page].id,items[page].title) },
                     contentAlignment = Alignment.Center
                 ) {
                     val movie = items[page]

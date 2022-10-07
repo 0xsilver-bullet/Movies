@@ -8,5 +8,6 @@ data class MovieDetails(
     val adult: Boolean,
     val genres: List<Genre>,
     val posterPath: String,
-    val backdropPath: String
+    val backdropPath: String,
+    val voteAverage: Double
 )

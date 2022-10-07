@@ -24,7 +24,8 @@ fun MoviesSection(
     moviesList: List<MovieInfo>,
     actionString: String,
     onActionStringClicked: () -> Unit = {},
-    onScrolledToEnd: () -> Unit = {}
+    onScrolledToEnd: () -> Unit = {},
+    onItemClick: (Int,String) -> Unit = {_,_ ->}
 ) {
     Column(modifier = modifier) {
         Row(
@@ -59,6 +60,7 @@ fun MoviesSection(
                     modifier = Modifier
                         .width(135.dp)
                         .height(230.dp)
+                        .clickable { onItemClick(movieInfo.id,movieInfo.title) }
                 )
                 Spacer(modifier = Modifier.width(12.dp))
             }

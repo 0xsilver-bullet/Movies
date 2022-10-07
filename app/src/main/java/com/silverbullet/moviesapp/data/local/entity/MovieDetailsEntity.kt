@@ -14,4 +14,5 @@ data class MovieDetailsEntity(
     val genres: List<Genre>,
     val posterPath: String,
     val backdropPath: String,
+    val voteAverage: Double
 )

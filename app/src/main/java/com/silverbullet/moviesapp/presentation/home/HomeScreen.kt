@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.silverbullet.moviesapp.R
 import com.silverbullet.moviesapp.domain.model.toCategory
+import com.silverbullet.moviesapp.navigation.Screen
 import com.silverbullet.moviesapp.presentation.home.components.*
 import com.silverbullet.moviesapp.presentation.ui.theme.BlueAccent
 import com.silverbullet.moviesapp.presentation.ui.theme.SoftColor
@@ -41,7 +42,10 @@ fun HomeScreen(
             )
             Slider(
                 modifier = Modifier.fillMaxWidth(),
-                items = state.trendingMovies
+                items = state.trendingMovies,
+                onItemClick = { movieId,title ->
+                    navController.navigate(Screen.MovieDetailsScreen.route + "/$movieId/$title")
+                }
             )
             CategorySelector(
                 selectedTextColor = BlueAccent,
@@ -58,6 +62,9 @@ fun HomeScreen(
                     if (!state.isLoading) {
                         viewModel.loadPopularMovies()
                     }
+                },
+                onItemClick = { movieId ,title->
+                    navController.navigate(Screen.MovieDetailsScreen.route + "/$movieId/$title")
                 }
             )
         }

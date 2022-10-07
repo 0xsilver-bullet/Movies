@@ -13,7 +13,8 @@ fun MovieDetailsDto.toMoveDetailsEntity(): MovieDetailsEntity {
         adult = adult,
         genres = genres,
         posterPath = posterPath,
-        backdropPath = backdropPath
+        backdropPath = backdropPath,
+        voteAverage = voteAverage
     )
 }
 
@@ -26,6 +27,7 @@ fun MovieDetailsEntity.toMovieDetails(): MovieDetails {
         adult = adult,
         genres = genres,
         posterPath = posterPath,
-        backdropPath = backdropPath
+        backdropPath = backdropPath,
+        voteAverage = voteAverage
     )
 }
