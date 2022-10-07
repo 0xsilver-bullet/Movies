@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "trending_movies_table")
 data class TrendingMovieInfoEntity(
     @PrimaryKey val id: Int,
+    val title: String,
     val adult: Boolean,
     val posterPath: String,
     val backdropPath: String,

@@ -1,25 +1,34 @@
 package com.silverbullet.moviesapp.presentation.home
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.silverbullet.moviesapp.presentation.home.components.SearchBar
-import com.silverbullet.moviesapp.presentation.home.components.TopSection
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.silverbullet.moviesapp.R
+import com.silverbullet.moviesapp.domain.model.toCategory
+import com.silverbullet.moviesapp.presentation.home.components.*
+import com.silverbullet.moviesapp.presentation.ui.theme.BlueAccent
 import com.silverbullet.moviesapp.presentation.ui.theme.SoftColor
 
-@SuppressLint("CoroutineCreationDuringComposition")
+@ExperimentalPagerApi
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.value
+    val scrollState = rememberScrollState()
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(state = scrollState)
+        ) {
             TopSection(modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(16.dp))
             SearchBar(
@@ -29,6 +38,27 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
                     .fillMaxWidth()
+            )
+            Slider(
+                modifier = Modifier.fillMaxWidth(),
+                items = state.trendingMovies
+            )
+            CategorySelector(
+                selectedTextColor = BlueAccent,
+                selectedBackgroundColor = SoftColor,
+                categories = state.genres.map { it.toCategory() },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            MoviesSection(
+                sectionHeader = "Most popular",
+                moviesList = state.popularMovies,
+                actionString = "Sell All",
+                onScrolledToEnd = {
+                    if (!state.isLoading) {
+                        viewModel.loadPopularMovies()
+                    }
+                }
             )
         }
     }

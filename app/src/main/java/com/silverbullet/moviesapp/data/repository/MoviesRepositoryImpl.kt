@@ -35,7 +35,7 @@ class MoviesRepositoryImpl @Inject constructor(
                 )
             }
             try {
-                val trendingMovies = api.fetchTrendingMovies()
+                val trendingMovies = api.fetchTrendingMovies().results
                 trendingMoviesInfoDao.clear()
                 trendingMoviesInfoDao.insertAll(trendingMovies.map { it.toTrendingMovieEntity() })
                 emit(

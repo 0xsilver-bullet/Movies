@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun loadPopularMovies() {
+    fun loadPopularMovies() {
         viewModelScope.launch {
             repository
                 .getPopularMoves(currentPage)
@@ -62,7 +62,10 @@ class HomeViewModel @Inject constructor(
                         is Resource.Success -> {
                             resource.data?.let { moviesInfo ->
                                 _state.value = _state.value.copy(
-                                    popularMovies = moviesInfo,
+                                    popularMovies = buildList {
+                                        addAll(_state.value.popularMovies)
+                                        addAll(moviesInfo)
+                                    }.distinctBy { it.id },
                                     isLoading = resource.isLoading
                                 )
                             }

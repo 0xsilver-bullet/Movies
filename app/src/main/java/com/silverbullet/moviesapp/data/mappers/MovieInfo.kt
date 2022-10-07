@@ -8,6 +8,7 @@ import com.silverbullet.moviesapp.domain.model.MovieInfo
 fun MovieInfoDto.toMovieInfoEntity(): MovieInfoEntity {
     return MovieInfoEntity(
         id = id,
+        title = title,
         adult = adult,
         posterPath = posterPath,
         backdropPath = backdropPath,
@@ -19,6 +20,7 @@ fun MovieInfoDto.toMovieInfoEntity(): MovieInfoEntity {
 fun MovieInfoDto.toTrendingMovieEntity(): TrendingMovieInfoEntity {
     return TrendingMovieInfoEntity(
         id = id,
+        title = title,
         adult = adult,
         posterPath = posterPath,
         backdropPath = backdropPath,
@@ -30,6 +32,7 @@ fun MovieInfoDto.toTrendingMovieEntity(): TrendingMovieInfoEntity {
 fun MovieInfoEntity.toMovieInfo(): MovieInfo {
     return MovieInfo(
         id = id,
+        title = title,
         adult = adult,
         posterPath = posterPath,
         backdropPath = backdropPath,
@@ -41,6 +44,7 @@ fun MovieInfoEntity.toMovieInfo(): MovieInfo {
 fun TrendingMovieInfoEntity.toMovieInfo(): MovieInfo {
     return MovieInfo(
         id = id,
+        title = title,
         adult = adult,
         posterPath = posterPath,
         backdropPath = backdropPath,

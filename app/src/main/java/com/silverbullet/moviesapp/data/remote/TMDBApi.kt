@@ -1,10 +1,7 @@
 package com.silverbullet.moviesapp.data.remote
 
 import com.silverbullet.moviesapp.BuildConfig
-import com.silverbullet.moviesapp.data.remote.dto.GenresResponse
-import com.silverbullet.moviesapp.data.remote.dto.MovieDetailsDto
-import com.silverbullet.moviesapp.data.remote.dto.MovieInfoDto
-import com.silverbullet.moviesapp.data.remote.dto.PopularMoviesResponse
+import com.silverbullet.moviesapp.data.remote.dto.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -32,7 +29,7 @@ interface TMDBApi {
     @GET("trending/movie/day")
     suspend fun fetchTrendingMovies(
         @Query("api_key") apiKey: String = API_KEY
-    ): List<MovieInfoDto>
+    ):TrendingMoviesResponse
 
     companion object {
         const val API_KEY = BuildConfig.TMDB_API_KEY

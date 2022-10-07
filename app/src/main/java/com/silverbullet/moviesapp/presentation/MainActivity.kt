@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.silverbullet.moviesapp.R
 import com.silverbullet.moviesapp.navigation.MoviesAppNavHost
 import com.silverbullet.moviesapp.navigation.Screen
@@ -29,6 +30,7 @@ import com.silverbullet.moviesapp.presentation.ui.theme.MoviesTheme
 import com.silverbullet.moviesapp.presentation.ui.theme.SoftColor
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
