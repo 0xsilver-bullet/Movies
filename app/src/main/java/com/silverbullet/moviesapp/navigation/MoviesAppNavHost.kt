@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.silverbullet.moviesapp.presentation.favorites.FavoritesScreen
 import com.silverbullet.moviesapp.presentation.home.HomeScreen
 import com.silverbullet.moviesapp.presentation.movie_details.MovieDetailsScreen
 import com.silverbullet.moviesapp.presentation.search.SearchScreen
@@ -65,6 +66,10 @@ fun MoviesAppNavHost(navController: NavHostController) {
                 navController = navController,
                 offset = Offset(xOffset, yOffset)
             )
+        }
+
+        composable(Screen.FavoriteScreen.route) {
+            FavoritesScreen(navController)
         }
     }
 }

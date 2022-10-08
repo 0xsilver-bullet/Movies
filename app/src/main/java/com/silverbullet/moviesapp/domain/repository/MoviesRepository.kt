@@ -17,4 +17,6 @@ interface MoviesRepository {
     suspend fun getMoviesGenres(): Flow<Resource<List<Genre>>>
 
     suspend fun updateMovieDetails(movieDetails: MovieDetails)
+
+    fun getFavoriteMoviesDetailsList(): Flow<List<MovieDetails>>
 }

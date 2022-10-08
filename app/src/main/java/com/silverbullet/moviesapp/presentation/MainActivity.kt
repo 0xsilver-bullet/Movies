@@ -89,7 +89,11 @@ class MainActivity : ComponentActivity() {
                                 backgroundSelectedColor = SoftColor,
                                 isSelected = selectedRoute == Screen.FavoriteScreen.route,
                                 route = Screen.FavoriteScreen.route,
-                                onSelect = { selectedRoute = it }
+                                onSelect = {
+                                    navController.navigate(route = Screen.FavoriteScreen.route) {
+                                        popUpTo(Screen.HomeScreen.route)
+                                    }
+                                }
                             )
                         }
                     }

@@ -10,6 +10,7 @@ import com.silverbullet.moviesapp.domain.repository.MoviesRepository
 import com.silverbullet.moviesapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MoviesRepositoryImpl @Inject constructor(
@@ -106,6 +107,14 @@ class MoviesRepositoryImpl @Inject constructor(
 
     override suspend fun updateMovieDetails(movieDetails: MovieDetails) {
         movieDetailsDao.upsert(movieDetails.toMovieDetailsEntity())
+    }
+
+    override fun getFavoriteMoviesDetailsList(): Flow<List<MovieDetails>> {
+        return movieDetailsDao.getFavoriteMoviesList().map {
+            it.map { movieDetailsEntity ->
+                movieDetailsEntity.toMovieDetails()
+            }
+        }
     }
 
     override suspend fun getMoviesGenres(): Flow<Resource<List<Genre>>> {
