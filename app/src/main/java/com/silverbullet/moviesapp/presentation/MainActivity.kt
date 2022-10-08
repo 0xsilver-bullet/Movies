@@ -11,10 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -50,6 +47,11 @@ class MainActivity : ComponentActivity() {
                             var selectedRoute by remember {
                                 mutableStateOf(Screen.HomeScreen.route)
                             }
+                            LaunchedEffect(key1 = true) {
+                                navController.addOnDestinationChangedListener { _, destination, _ ->
+                                    selectedRoute = destination.route ?: ""
+                                }
+                            }
                             NavItem(
                                 icon = R.drawable.ic_home,
                                 name = "Home",
@@ -58,7 +60,12 @@ class MainActivity : ComponentActivity() {
                                 isSelected = selectedRoute == Screen.HomeScreen.route,
                                 backgroundSelectedColor = SoftColor,
                                 route = Screen.HomeScreen.route,
-                                onSelect = { selectedRoute = it }
+                                onSelect = {
+                                    navController.navigate(it) {
+                                        launchSingleTop = true
+                                        popUpTo(Screen.HomeScreen.route)
+                                    }
+                                }
                             )
                             NavItem(
                                 icon = R.drawable.ic_search,
@@ -66,9 +73,13 @@ class MainActivity : ComponentActivity() {
                                 unselectedColor = Color.White,
                                 selectedColor = BlueAccent,
                                 backgroundSelectedColor = SoftColor,
-                                isSelected = selectedRoute == Screen.SearchScreen.route,
+                                isSelected = selectedRoute.takeWhile { it != '/' } == Screen.SearchScreen.route,
                                 route = Screen.SearchScreen.route,
-                                onSelect = { selectedRoute = it }
+                                onSelect = {
+                                    navController.navigate(route = "$it/0.0/0.0") {
+                                        popUpTo(Screen.HomeScreen.route)
+                                    }
+                                }
                             )
                             NavItem(
                                 icon = R.drawable.ic_favorite,

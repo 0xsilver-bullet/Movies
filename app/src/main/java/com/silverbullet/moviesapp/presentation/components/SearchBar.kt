@@ -1,4 +1,4 @@
-package com.silverbullet.moviesapp.presentation.home.components
+package com.silverbullet.moviesapp.presentation.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -28,6 +28,7 @@ fun SearchBar(
     hint: String = "",
     hintColor: Color = Color.Gray,
     backgroundColor: Color = Color.Gray,
+    readOnly: Boolean = false,
     @DrawableRes icon: Int,
     onSearch: (String) -> Unit = {}
 ) {
@@ -49,6 +50,7 @@ fun SearchBar(
             textStyle = MaterialTheme.typography.h5.copy(color = Color.White),
             maxLines = 1,
             singleLine = true,
+            readOnly = readOnly,
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(24.dp))
