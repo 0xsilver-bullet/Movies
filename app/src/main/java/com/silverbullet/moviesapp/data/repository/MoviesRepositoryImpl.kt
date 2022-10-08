@@ -104,6 +104,10 @@ class MoviesRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateMovieDetails(movieDetails: MovieDetails) {
+        movieDetailsDao.upsert(movieDetails.toMovieDetailsEntity())
+    }
+
     override suspend fun getMoviesGenres(): Flow<Resource<List<Genre>>> {
         return flow {
             emit(Resource.Loading())

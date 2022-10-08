@@ -80,6 +80,9 @@ fun MovieDetailsScreen(
         Column(modifier = Modifier.fillMaxSize()) {
             MovieDetailsTopSection(
                 rightIcon = R.drawable.ic_heart,
+                rightIconColor = state.movieDetails?.let { if (it.favorite) Color.Red else Color.White }
+                    ?: Color.White,
+                rightIconCallback = { viewModel.toggleFavorite() },
                 leftIcon = R.drawable.ic_back,
                 title = movieTitle,
                 leftIconCallback = { navController.navigateUp() }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,6 +24,7 @@ import com.silverbullet.moviesapp.presentation.ui.theme.SoftColor
 fun MovieDetailsTopSection(
     modifier: Modifier = Modifier,
     @DrawableRes rightIcon: Int,
+    rightIconColor: Color,
     @DrawableRes leftIcon: Int,
     title: String,
     titleColor: Color = Color.White,
@@ -64,7 +66,11 @@ fun MovieDetailsTopSection(
                 .clickable { rightIconCallback() },
             contentAlignment = Alignment.Center
         ) {
-            Image(painter = painterResource(id = rightIcon), contentDescription = null)
+            Image(
+                painter = painterResource(id = rightIcon),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(rightIconColor)
+            )
         }
     }
 }

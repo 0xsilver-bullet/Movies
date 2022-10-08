@@ -28,6 +28,22 @@ fun MovieDetailsEntity.toMovieDetails(): MovieDetails {
         genres = genres,
         posterPath = posterPath,
         backdropPath = backdropPath,
-        voteAverage = voteAverage
+        voteAverage = voteAverage,
+        favorite = favorite
+    )
+}
+
+fun MovieDetails.toMovieDetailsEntity(): MovieDetailsEntity{
+    return MovieDetailsEntity(
+        id = id,
+        title = title,
+        overview = overview,
+        releaseDate = releaseDate,
+        adult = adult,
+        genres = genres,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        voteAverage = voteAverage,
+        favorite = favorite
     )
 }

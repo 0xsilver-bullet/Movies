@@ -28,6 +28,19 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    fun toggleFavorite() {
+        _state.value.movieDetails?.let { movieDetails ->
+            viewModelScope.launch {
+                repository.updateMovieDetails(
+                    movieDetails = movieDetails.copy(
+                        favorite = !movieDetails.favorite
+                    )
+                )
+                loadMovieDetails(movieDetails.id)
+            }
+        }
+    }
+
     private fun loadMovieDetails(movieId: Int) {
         viewModelScope.launch {
             repository

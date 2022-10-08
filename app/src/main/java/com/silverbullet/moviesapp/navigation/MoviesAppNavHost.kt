@@ -39,7 +39,10 @@ fun MoviesAppNavHost(navController: NavHostController) {
             )
         ) {
             val movieTitle = it.arguments?.getString(MOVIE_TITLE_KEY)
-            MovieDetailsScreen(navController = navController, movieTitle = movieTitle ?: "")
+            MovieDetailsScreen(
+                navController = navController,
+                movieTitle = movieTitle ?: ""
+            )
         }
 
         composable(
