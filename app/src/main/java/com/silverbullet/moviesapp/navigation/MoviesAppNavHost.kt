@@ -7,11 +7,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.silverbullet.moviesapp.presentation.favorites.FavoritesScreen
 import com.silverbullet.moviesapp.presentation.home.HomeScreen
 import com.silverbullet.moviesapp.presentation.movie_details.MovieDetailsScreen
 import com.silverbullet.moviesapp.presentation.search.SearchScreen
+import com.silverbullet.moviesapp.utils.Constants.APP_URI
 import com.silverbullet.moviesapp.utils.Constants.MOVIE_ID_KEY
 import com.silverbullet.moviesapp.utils.Constants.MOVIE_TITLE_KEY
 import com.silverbullet.moviesapp.utils.Constants.OFFSET_X_KEY
@@ -37,9 +39,12 @@ fun MoviesAppNavHost(navController: NavHostController) {
                 navArgument(MOVIE_TITLE_KEY) {
                     type = NavType.StringType
                 }
+            ),
+            deepLinks = listOf(
+                navDeepLink { uriPattern = "$APP_URI/{$MOVIE_ID_KEY}/{$MOVIE_TITLE_KEY}" }
             )
         ) {
-            val movieTitle = it.arguments?.getString(MOVIE_TITLE_KEY)
+            val movieTitle = it.arguments?.getString(MOVIE_TITLE_KEY)?.replace('+',' ')
             MovieDetailsScreen(
                 navController = navController,
                 movieTitle = movieTitle ?: ""

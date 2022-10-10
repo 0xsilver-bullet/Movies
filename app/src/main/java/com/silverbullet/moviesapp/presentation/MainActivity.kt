@@ -1,5 +1,6 @@
 package com.silverbullet.moviesapp.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.silverbullet.moviesapp.R
@@ -30,11 +32,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private lateinit var _navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MoviesTheme {
                 val navController = rememberNavController()
+                _navController = navController
                 val scaffoldState = rememberScaffoldState()
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -109,5 +115,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        _navController.handleDeepLink(intent)
     }
 }

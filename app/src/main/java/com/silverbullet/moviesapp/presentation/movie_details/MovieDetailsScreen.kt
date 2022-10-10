@@ -1,11 +1,12 @@
 package com.silverbullet.moviesapp.presentation.movie_details
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import com.silverbullet.moviesapp.presentation.movie_details.components.StoryLin
 import com.silverbullet.moviesapp.presentation.ui.theme.Montserrat
 import com.silverbullet.moviesapp.presentation.ui.theme.OrangeColor
 import com.silverbullet.moviesapp.presentation.ui.theme.SoftColor
+import com.silverbullet.moviesapp.utils.Constants.APP_URI
 
 @Composable
 fun MovieDetailsScreen(
@@ -40,6 +42,11 @@ fun MovieDetailsScreen(
 ) {
     val state = viewModel.state.value
     val scrollState = rememberScrollState()
+
+    val shareRequest =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+
+        }
 
     Box(modifier = Modifier.fillMaxSize()) {
         state.movieDetails?.let {
@@ -153,6 +160,37 @@ fun MovieDetailsScreen(
                             )
                         }
                     }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(SoftColor)
+                            .clickable {
+                                val sendIntent = Intent().apply {
+                                    action = Intent.ACTION_SEND
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        "$APP_URI/${movieDetails.id}/${
+                                            movieDetails.title.replace(
+                                                ' ',
+                                                '+'
+                                            )
+                                        }"
+                                    )
+                                    type = "text/plain"
+                                }
+                                val shareIntent = Intent.createChooser(sendIntent, null)
+                                shareRequest.launch(shareIntent)
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_share),
+                            contentDescription = null
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
                     StoryLineSection(
                         story = movieDetails.overview,
                         textColor = Color(0xFFEBEBEF),
