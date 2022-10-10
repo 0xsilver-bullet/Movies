@@ -100,7 +100,7 @@ fun DetailsMovieItem(
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "33 minutes", color = Color.Gray, fontSize = 12.sp)
+                Text(text = "${movieDetails.timeInMinutes} minutes", color = Color.Gray, fontSize = 12.sp)
             }
         }
     }

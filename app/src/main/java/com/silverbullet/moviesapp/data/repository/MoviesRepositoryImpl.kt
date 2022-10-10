@@ -6,11 +6,14 @@ import com.silverbullet.moviesapp.data.remote.TMDBApi
 import com.silverbullet.moviesapp.domain.model.Genre
 import com.silverbullet.moviesapp.domain.model.MovieDetails
 import com.silverbullet.moviesapp.domain.model.MovieInfo
+import com.silverbullet.moviesapp.domain.model.SearchResult
 import com.silverbullet.moviesapp.domain.repository.MoviesRepository
 import com.silverbullet.moviesapp.utils.Resource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MoviesRepositoryImpl @Inject constructor(
@@ -23,7 +26,7 @@ class MoviesRepositoryImpl @Inject constructor(
     private val movieDetailsDao = database.movieDetailsDao
     private val genreDao = database.genresDao
 
-    override suspend fun getTrendingMovies(): Flow<Resource<List<MovieInfo>>> {
+    override fun getTrendingMovies(): Flow<Resource<List<MovieInfo>>> {
         return flow {
             emit(Resource.Loading())
             val trendingMoviesEntities = trendingMoviesInfoDao.getMovies()
@@ -50,7 +53,7 @@ class MoviesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPopularMoves(page: Int): Flow<Resource<List<MovieInfo>>> {
+    override fun getPopularMoves(page: Int): Flow<Resource<List<MovieInfo>>> {
         return flow {
             emit(Resource.Loading())
             val popularMoviesEntities = moviesInfoDao.getMoviesInfo()
@@ -83,7 +86,7 @@ class MoviesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMovieDetails(movieId: Int): Flow<Resource<MovieDetails>> {
+    override fun getMovieDetails(movieId: Int): Flow<Resource<MovieDetails>> {
         return flow {
             emit(Resource.Loading())
             val movieDetails = movieDetailsDao.getMovieDetail(movieId)
@@ -117,7 +120,7 @@ class MoviesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMoviesGenres(): Flow<Resource<List<Genre>>> {
+    override fun getMoviesGenres(): Flow<Resource<List<Genre>>> {
         return flow {
             emit(Resource.Loading())
             val genreEntities = genreDao.getGenres()
@@ -134,6 +137,22 @@ class MoviesRepositoryImpl @Inject constructor(
                     genreDao.getGenres().map { it.toGenre() }
                 )
             )
+        }
+    }
+
+    override fun search(query: String, page: Int): Flow<Resource<SearchResult>> {
+        return flow {
+            try {
+                emit(Resource.Loading())
+                val response = api.search(query = query, page = page)
+                val searchResult = withContext(Dispatchers.IO) {
+                    val jsonBody = response.string()
+                    return@withContext TMDBApi.parseSearchResponse(jsonBody)
+                }
+                emit(Resource.Success(searchResult))
+            } catch (e: Exception) {
+                emit(Resource.Error(TMDBApi.exceptionToErrorString(e)))
+            }
         }
     }
 }

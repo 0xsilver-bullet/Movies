@@ -27,14 +27,12 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     hint: String = "",
     hintColor: Color = Color.Gray,
+    searchText: String,
     backgroundColor: Color = Color.Gray,
     readOnly: Boolean = false,
     @DrawableRes icon: Int,
     onSearch: (String) -> Unit = {}
 ) {
-    var searchText by remember {
-        mutableStateOf("")
-    }
     var shouldDisplayHint by remember {
         mutableStateOf(true)
     }
@@ -44,7 +42,6 @@ fun SearchBar(
         BasicTextField(
             value = searchText,
             onValueChange = {
-                searchText = it
                 onSearch(it)
             },
             textStyle = MaterialTheme.typography.h5.copy(color = Color.White),

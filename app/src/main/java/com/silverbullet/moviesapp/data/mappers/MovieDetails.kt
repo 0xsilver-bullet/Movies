@@ -14,6 +14,7 @@ fun MovieDetailsDto.toMoveDetailsEntity(): MovieDetailsEntity {
         genres = genres,
         posterPath = posterPath,
         backdropPath = backdropPath,
+        timeInMinutes = runtime,
         voteAverage = voteAverage
     )
 }
@@ -29,11 +30,12 @@ fun MovieDetailsEntity.toMovieDetails(): MovieDetails {
         posterPath = posterPath,
         backdropPath = backdropPath,
         voteAverage = voteAverage,
+        timeInMinutes = timeInMinutes,
         favorite = favorite
     )
 }
 
-fun MovieDetails.toMovieDetailsEntity(): MovieDetailsEntity{
+fun MovieDetails.toMovieDetailsEntity(): MovieDetailsEntity {
     return MovieDetailsEntity(
         id = id,
         title = title,
@@ -44,6 +46,7 @@ fun MovieDetails.toMovieDetailsEntity(): MovieDetailsEntity{
         posterPath = posterPath,
         backdropPath = backdropPath,
         voteAverage = voteAverage,
+        timeInMinutes = timeInMinutes,
         favorite = favorite
     )
 }

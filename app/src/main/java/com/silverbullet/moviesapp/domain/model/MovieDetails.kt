@@ -10,5 +10,6 @@ data class MovieDetails(
     val posterPath: String,
     val backdropPath: String,
     val voteAverage: Double,
+    val timeInMinutes: Int,
     val favorite: Boolean = false
 )

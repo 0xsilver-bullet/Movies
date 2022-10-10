@@ -2,6 +2,11 @@ package com.silverbullet.moviesapp.data.remote
 
 import com.silverbullet.moviesapp.BuildConfig
 import com.silverbullet.moviesapp.data.remote.dto.*
+import com.silverbullet.moviesapp.domain.model.Actor
+import com.silverbullet.moviesapp.domain.model.MovieInfo
+import com.silverbullet.moviesapp.domain.model.SearchResult
+import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -29,7 +34,14 @@ interface TMDBApi {
     @GET("trending/movie/day")
     suspend fun fetchTrendingMovies(
         @Query("api_key") apiKey: String = API_KEY
-    ):TrendingMoviesResponse
+    ): TrendingMoviesResponse
+
+    @GET("search/multi")
+    suspend fun search(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): ResponseBody
 
     companion object {
         const val API_KEY = BuildConfig.TMDB_API_KEY
@@ -46,6 +58,69 @@ interface TMDBApi {
             } else {
                 exception.message ?: "Unexpected error occurred"
             }
+        }
+
+        fun parseSearchResponse(jsonResponse: String): SearchResult {
+            val json = JSONObject(jsonResponse)
+            val page = json.getInt("page")
+            val totalPages = json.getInt("total_pages")
+            val totalResults = json.getInt("total_results")
+            val results = json.getJSONArray("results")
+            var cursor = 0
+            val moviesInfoList = mutableListOf<MovieInfo>()
+            val actorsList = mutableListOf<Actor>()
+            while (cursor < results.length()) {
+                val jsonObj = results.getJSONObject(cursor)
+                val type = jsonObj.getString("media_type")
+                if (type == "movie") {
+                    val movieInfo = parseMovieInfoObj(jsonObj)
+                    moviesInfoList.add(movieInfo)
+                } else if (type == "person") {
+                    val actor = parseActorObj(jsonObj)
+                    actorsList.add(actor)
+                }
+                cursor++
+            }
+            return SearchResult(
+                page = page,
+                totalPages = totalPages,
+                totalResults = totalResults,
+                movies = moviesInfoList,
+                actors = actorsList
+            )
+        }
+
+        private fun parseActorObj(obj: JSONObject): Actor {
+            val name = obj.getString("name")
+            val id = obj.getInt("id")
+            val profilePath = obj.getString("profile_path")
+            return Actor(name = name, id = id, profilePath = profilePath)
+        }
+
+        private fun parseMovieInfoObj(obj: JSONObject): MovieInfo {
+            val title = obj.getString("title")
+            val id = obj.getInt("id")
+            val voteAverage = (obj.get("vote_average") as Number?)?.toDouble() ?: 0.0
+            val backdropPath = obj.getString("backdrop_path")
+            val posterPath = obj.getString("poster_path")
+            val genreIdsObj = obj.getJSONArray("genre_ids")
+            val genreIdsList = mutableListOf<Int>()
+            var cursor = 0
+            while (cursor < genreIdsObj.length()) {
+                val genreId = genreIdsObj.getInt(cursor)
+                genreIdsList.add(genreId)
+                cursor++
+            }
+            val adult = obj.getBoolean("adult")
+            return MovieInfo(
+                id = id,
+                title = title,
+                adult = adult,
+                voteAverage = voteAverage,
+                backdropPath = backdropPath,
+                posterPath = posterPath,
+                genreIds = genreIdsList
+            )
         }
     }
 }

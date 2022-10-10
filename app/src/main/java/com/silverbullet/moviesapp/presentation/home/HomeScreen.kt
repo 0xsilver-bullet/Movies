@@ -62,7 +62,8 @@ fun HomeScreen(
                         if (it.isFocused) {
                             navController.navigate(Screen.SearchScreen.route + "/${searchBarPosition.x}/${searchBarPosition.y}")
                         }
-                    }
+                    },
+                searchText = ""
             )
             Slider(
                 modifier = Modifier.fillMaxWidth(),

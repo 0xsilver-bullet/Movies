@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun StoryLineSection(
@@ -30,7 +31,8 @@ fun StoryLineSection(
         Text(
             text = story,
             style = MaterialTheme.typography.h5,
-            color = textColor
+            color = textColor,
+            lineHeight = 20.sp
         )
     }
 }
