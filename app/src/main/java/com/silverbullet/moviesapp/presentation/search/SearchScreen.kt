@@ -17,9 +17,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.silverbullet.moviesapp.R
 import com.silverbullet.moviesapp.navigation.Screen
+import com.silverbullet.moviesapp.presentation.components.ActorsList
 import com.silverbullet.moviesapp.presentation.components.SearchBar
 import com.silverbullet.moviesapp.presentation.home.components.MovieInfoItem
 import com.silverbullet.moviesapp.presentation.ui.theme.SoftColor
+import timber.log.Timber
 
 /**
  * @param offset is used to play an animation for the search bar in case it was opened from home screen.
@@ -75,6 +77,13 @@ fun SearchScreen(
         Spacer(modifier = Modifier.height(32.dp))
         state.searchResult?.let { searchResult ->
             LazyColumn(modifier = Modifier.padding(horizontal = 24.dp)) {
+                if (searchResult.actors.isNotEmpty()) {
+                    searchResult.actors.forEach { Timber.d(it.name) }
+                    item {
+                        ActorsList(actors = searchResult.actors, modifier = Modifier.fillMaxWidth())
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
                 items(searchResult.movies) { movieInfo ->
                     MovieInfoItem(
                         movieInfo = movieInfo,
