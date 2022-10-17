@@ -9,4 +9,6 @@ object Constants {
 
     const val OFFSET_X_KEY = "offset_x_key"
     const val OFFSET_Y_KEY = "offset_y_key"
+
+    const val GENRE_SHOW_ALL_ID = 0
 }

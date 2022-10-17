@@ -9,10 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,12 +26,10 @@ fun CategorySelector(
     notSelectedBackgroundColor: Color = Color.Transparent,
     selectedTextColor: Color,
     selectedBackgroundColor: Color,
+    selectedGenreId: Int,
     categories: List<Category>,
     onCategorySelected: (Int) -> Unit = {} // calls lambda function with id of category
 ) {
-    var selectedIndex by remember {
-        mutableStateOf(0)
-    }
     Column(modifier = modifier) {
         Text(
             text = "Categories",
@@ -48,7 +42,7 @@ fun CategorySelector(
             modifier = Modifier.padding(horizontal = 24.dp)
         ) {
             items(categories) { item ->
-                val isItemSelected = selectedIndex == categories.indexOf(item)
+                val isItemSelected = item.id == selectedGenreId
                 Box(
                     modifier = modifier
                         .width(80.dp)
@@ -56,7 +50,6 @@ fun CategorySelector(
                         .clip(RoundedCornerShape(8.dp))
                         .background(if (isItemSelected) selectedBackgroundColor else notSelectedBackgroundColor)
                         .clickable {
-                            selectedIndex = categories.indexOf(item)
                             onCategorySelected(item.id)
                         },
                     contentAlignment = Alignment.Center

@@ -76,7 +76,9 @@ fun HomeScreen(
                 selectedTextColor = BlueAccent,
                 selectedBackgroundColor = SoftColor,
                 categories = state.genres.map { it.toCategory() },
-                modifier = Modifier.fillMaxWidth()
+                selectedGenreId = viewModel.selectedGenreId.value,
+                modifier = Modifier.fillMaxWidth(),
+                onCategorySelected = viewModel::onGenreSelected
             )
             Spacer(modifier = Modifier.height(8.dp))
             MoviesSection(
