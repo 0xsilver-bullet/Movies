@@ -78,6 +78,15 @@ interface TMDBApi {
                 } else if (type == "person") {
                     val actor = parseActorObj(jsonObj)
                     actorsList.add(actor)
+                    // Extract movies the actor is known for and add it to movieInfoList
+                    val knownForObjList = jsonObj.getJSONArray("known_for")
+                    var knownForCursor = 0
+                    while (knownForCursor < knownForObjList.length()) {
+                        val movieInfoObj = knownForObjList.getJSONObject(knownForCursor)
+                        val movieInfo = parseMovieInfoObj(movieInfoObj)
+                        moviesInfoList.add(movieInfo)
+                        knownForCursor++
+                    }
                 }
                 cursor++
             }
