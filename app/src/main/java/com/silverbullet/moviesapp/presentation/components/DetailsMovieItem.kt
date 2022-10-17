@@ -65,7 +65,7 @@ fun DetailsMovieItem(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = movieDetails.voteAverage.toString(),
+                            text = "%.1f".format(movieDetails.voteAverage),
                             color = OrangeColor,
                             fontSize = 12.sp,
                             fontFamily = Montserrat,

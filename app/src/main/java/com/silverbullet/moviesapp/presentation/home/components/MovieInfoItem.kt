@@ -60,7 +60,7 @@ fun MovieInfoItem(
                 Image(painter = painterResource(id = R.drawable.ic_star), contentDescription = null)
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = movieInfo.voteAverage.toString(),
+                    text = "%.1f".format(movieInfo.voteAverage),
                     color = OrangeColor,
                     fontSize = 12.sp,
                     fontFamily = Montserrat,
