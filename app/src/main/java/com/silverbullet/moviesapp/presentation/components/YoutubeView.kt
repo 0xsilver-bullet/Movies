@@ -29,12 +29,12 @@ fun YoutubeView(
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_STOP) {
-                ytPlayer?.pause()
+                ytPlayer?.release()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
-            ytPlayer?.pause()
+            ytPlayer?.release()
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
