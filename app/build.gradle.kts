@@ -28,6 +28,9 @@ android {
         val apiKey: String = gradleLocalProperties(
             rootDir
         ).getProperty("TMDB_API_KEY")
+        val youtubeApiKey: String = gradleLocalProperties(
+            rootDir
+        ).getProperty("YOUTUBE_API_KEY")
 
         getByName("debug") {
             isMinifyEnabled = false
@@ -36,15 +39,18 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("String", "TMDB_API_KEY", apiKey)
+            buildConfigField("String","YOUTUBE_API_KEY",youtubeApiKey)
         }
 
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             buildConfigField("String", "TMDB_API_KEY", apiKey)
+            buildConfigField("String","YOUTUBE_API_KEY",youtubeApiKey)
         }
     }
 
@@ -78,6 +84,7 @@ dependencies {
     val lifecycleVersion = "2.5.1"
     val roomVersion = "2.4.3"
     val composeUiVersion = "1.2.1"
+    val fragment_version = "1.5.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
 
@@ -127,6 +134,15 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
+
+    // Youtube
+    implementation(files("libs\\YouTubeAndroidPlayerApi.jar"))
+
+    // AppCompat
+    implementation("androidx.appcompat:appcompat:1.5.1")
+
+    // Fragment
+    implementation("androidx.fragment:fragment-ktx:$fragment_version")
 
     // Junit
     testImplementation("junit:junit:4.13.2")

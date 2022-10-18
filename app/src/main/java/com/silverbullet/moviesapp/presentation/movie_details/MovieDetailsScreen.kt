@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,10 +24,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.silverbullet.moviesapp.BuildConfig
 import com.silverbullet.moviesapp.data.remote.TMDBApi
 import com.silverbullet.moviesapp.presentation.movie_details.components.MovieDetailsTopSection
 import com.silverbullet.moviesapp.presentation.ui.theme.DarkColor
 import com.silverbullet.moviesapp.R
+import com.silverbullet.moviesapp.presentation.components.YoutubeView
 import com.silverbullet.moviesapp.presentation.movie_details.components.DetailItem
 import com.silverbullet.moviesapp.presentation.movie_details.components.StoryLineSection
 import com.silverbullet.moviesapp.presentation.ui.theme.Montserrat
@@ -196,6 +199,24 @@ fun MovieDetailsScreen(
                         textColor = Color(0xFFEBEBEF),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    state.movieTrailer?.let { trailerInfo ->
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            text = "Trailer",
+                            style = MaterialTheme.typography.h4,
+                            color = Color.White
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        YoutubeView(
+                            apiKey = BuildConfig.YOUTUBE_API_KEY,
+                            videoKey = trailerInfo.key,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 48.dp)
+                                .aspectRatio(16f / 9f)
+                        )
+                        Spacer(modifier = Modifier.height(40.dp))
+                    }
                 }
             }
         }

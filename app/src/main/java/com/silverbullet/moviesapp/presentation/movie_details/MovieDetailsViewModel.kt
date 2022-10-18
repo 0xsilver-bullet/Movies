@@ -10,6 +10,7 @@ import com.silverbullet.moviesapp.utils.Constants.MOVIE_ID_KEY
 import com.silverbullet.moviesapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +26,7 @@ class MovieDetailsViewModel @Inject constructor(
         val movieId = savedStateHandle.get<Int>(MOVIE_ID_KEY)
         movieId?.let {
             loadMovieDetails(movieId)
+            loadMovieTrailer(movieId)
         }
     }
 
@@ -61,6 +63,26 @@ class MovieDetailsViewModel @Inject constructor(
                         }
                         is Resource.Loading -> {
                             _state.value = _state.value.copy(isLoading = true, error = null)
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun loadMovieTrailer(movieId: Int) {
+        viewModelScope.launch {
+            repository
+                .getMovieTrailer(movieId = movieId)
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            _state.value = state.value.copy(movieTrailer = resource.data)
+                        }
+                        is Resource.Error -> {
+                            Timber.d("Failed to load movie trailer")
+                        }
+                        is Resource.Loading -> {
+                            Timber.d("Loading Movie Trailer")
                         }
                     }
                 }
