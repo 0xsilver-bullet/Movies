@@ -1,9 +1,6 @@
 package com.silverbullet.moviesapp.domain.repository
 
-import com.silverbullet.moviesapp.domain.model.Genre
-import com.silverbullet.moviesapp.domain.model.MovieDetails
-import com.silverbullet.moviesapp.domain.model.MovieInfo
-import com.silverbullet.moviesapp.domain.model.SearchResult
+import com.silverbullet.moviesapp.domain.model.*
 import com.silverbullet.moviesapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -25,4 +22,6 @@ interface MoviesRepository {
         query: String,
         page: Int
     ): Flow<Resource<SearchResult>>
+
+    fun getMovieTrailer(movieId: Int): Flow<Resource<TrailerInfo?>>
 }

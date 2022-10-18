@@ -3,10 +3,7 @@ package com.silverbullet.moviesapp.data.repository
 import com.silverbullet.moviesapp.data.local.MoviesDatabase
 import com.silverbullet.moviesapp.data.mappers.*
 import com.silverbullet.moviesapp.data.remote.TMDBApi
-import com.silverbullet.moviesapp.domain.model.Genre
-import com.silverbullet.moviesapp.domain.model.MovieDetails
-import com.silverbullet.moviesapp.domain.model.MovieInfo
-import com.silverbullet.moviesapp.domain.model.SearchResult
+import com.silverbullet.moviesapp.domain.model.*
 import com.silverbullet.moviesapp.domain.repository.MoviesRepository
 import com.silverbullet.moviesapp.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -151,6 +148,25 @@ class MoviesRepositoryImpl @Inject constructor(
                 }
                 emit(Resource.Success(searchResult))
             } catch (e: Exception) {
+                emit(Resource.Error(TMDBApi.exceptionToErrorString(e)))
+            }
+        }
+    }
+
+    override fun getMovieTrailer(movieId: Int): Flow<Resource<TrailerInfo?>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val responseBody = api.getTrailer(movieId = movieId)
+                val trailer = withContext(Dispatchers.IO) {
+                    val jsonBody = responseBody.string()
+                    return@withContext TMDBApi.parseTrailerResponse(jsonBody)
+                }
+                emit(
+                    Resource.Success(trailer)
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
                 emit(Resource.Error(TMDBApi.exceptionToErrorString(e)))
             }
         }

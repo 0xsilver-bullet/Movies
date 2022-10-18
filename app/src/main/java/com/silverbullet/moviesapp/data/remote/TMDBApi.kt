@@ -5,6 +5,7 @@ import com.silverbullet.moviesapp.data.remote.dto.*
 import com.silverbullet.moviesapp.domain.model.Actor
 import com.silverbullet.moviesapp.domain.model.MovieInfo
 import com.silverbullet.moviesapp.domain.model.SearchResult
+import com.silverbullet.moviesapp.domain.model.TrailerInfo
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.http.GET
@@ -41,6 +42,12 @@ interface TMDBApi {
         @Query("api_key") apiKey: String = API_KEY,
         @Query("query") query: String,
         @Query("page") page: Int
+    ): ResponseBody
+
+    @GET("movie/{movie_id}/videos")
+    suspend fun getTrailer(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String = API_KEY
     ): ResponseBody
 
     companion object {
@@ -97,6 +104,28 @@ interface TMDBApi {
                 movies = moviesInfoList,
                 actors = actorsList
             )
+        }
+
+        /**
+         * @return TrailerInfo object contains key to play from Youtube.
+         */
+        fun parseTrailerResponse(jsonResponse: String): TrailerInfo? {
+            val jsonObj = JSONObject(jsonResponse)
+            val results = jsonObj.getJSONArray("results")
+            var resultsCursor = 0
+            while (resultsCursor < results.length()) {
+                val resultObj = results.getJSONObject(resultsCursor)
+                val type = resultObj.getString("type")
+                val site = resultObj.getString("site")
+                if (type == "Trailer" && site == "YouTube") {
+                    val id = resultObj.getString("id")
+                    val key = resultObj.getString("key")
+                    val name = resultObj.getString("name")
+                    return TrailerInfo(name = name, id = id, key = key)
+                }
+                resultsCursor++
+            }
+            return null
         }
 
         private fun parseActorObj(obj: JSONObject): Actor {
