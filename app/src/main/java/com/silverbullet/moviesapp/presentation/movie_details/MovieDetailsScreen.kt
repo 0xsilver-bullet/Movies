@@ -212,7 +212,7 @@ fun MovieDetailsScreen(
                             videoKey = trailerInfo.key,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 48.dp)
+                                .padding(horizontal = 18.dp)
                                 .aspectRatio(16f / 9f)
                         )
                         Spacer(modifier = Modifier.height(40.dp))

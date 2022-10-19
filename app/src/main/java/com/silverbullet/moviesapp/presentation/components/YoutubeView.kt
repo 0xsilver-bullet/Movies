@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentXKt
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 @Composable
@@ -26,16 +27,29 @@ fun YoutubeView(
     var ytPlayer by remember {
         mutableStateOf<YouTubePlayer?>(null)
     }
+    var ytPlayerActiveState by remember {
+        mutableStateOf(false)
+    }
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_STOP) {
-                ytPlayer?.release()
+                ytPlayerActiveState = false
+            } else if (event == Lifecycle.Event.ON_RESUME) {
+                ytPlayerActiveState = true
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
-            ytPlayer?.release()
+            ytPlayerActiveState = false
             lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+    LaunchedEffect(key1 = ytPlayerActiveState) {
+        if (ytPlayerActiveState) {
+            delay(1000L)
+            ytPlayer?.cueVideo(videoKey)
+        } else {
+            ytPlayer?.release()
         }
     }
     AndroidView(
@@ -55,9 +69,6 @@ fun YoutubeView(
                         ) {
                             ytPlayer = player
                             player?.setShowFullscreenButton(false)
-                            if (!wasRestored) {
-                                player?.cueVideo(videoKey)
-                            }
                         }
 
                         override fun onInitializationFailure(

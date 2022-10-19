@@ -23,6 +23,7 @@ class MovieDetailsViewModel @Inject constructor(
     val state: State<MovieDetailsScreenState> = _state
 
     init {
+        Timber.d("Initializing...")
         val movieId = savedStateHandle.get<Int>(MOVIE_ID_KEY)
         movieId?.let {
             loadMovieDetails(movieId)
